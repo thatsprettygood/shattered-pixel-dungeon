@@ -8,10 +8,10 @@ name: Build iOS (unsigned)
 on:
   push:
     branches:
-      - main
+      - master
   pull_request:
     branches:
-      - main
+      - master
   workflow_dispatch:
 
 jobs:
@@ -21,11 +21,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up Java 17
+      - name: Set up Java 21
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '17'
+          java-version: '21'
 
       - name: Make gradlew executable
         run: chmod +x ./gradlew
@@ -51,7 +51,7 @@ jobs:
           APP_PATH=$(find ios/build -type d -name '*.app' | head -n 1 || true)
           if [ -z "$APP_PATH" ]; then
             echo "No .app found under ios/build — listing build tree for debugging:"
-            find ios/build -maxdepth 3 -print || true
+            find ios/build -maxdepth 10 -print || true
             exit 1
           fi
           echo "Found app: $APP_PATH"
